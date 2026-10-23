@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spacescape Arcade - 2D Retro Space Shooter</title>
+  <link rel="icon" type="image/png" href="/game/assets_custom/player.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/portal.css">
+</head>
+<body class="arcade-body">
+  <!-- Dynamic Starfield Background -->
+  <div class="stars-layer stars-1"></div>
+  <div class="stars-layer stars-2"></div>
+  <div class="nebula-glow"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="arcade-header">
+    <div class="header-left">
+      <div class="logo-container">
+        <img src="/game/assets_custom/player.png" alt="Starfighter" class="header-ship-icon">
+        <h1 class="game-logo">SPACESCAPE</h1>
+        <span class="version-badge">RETRO FLAME EDITION</span>
+      </div>
+    </div>
+    
+    <div class="header-right">
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span class="status-text">ARCADE ENGINE ACTIVE</span>
+      </div>
+      <a href="/spacescape-itch-deploy.zip" download class="nav-btn zip-btn" title="Download Game Zip for Itch.io Deployment">
+        <span>📦</span> Itch.io Deploy ZIP
+      </a>
+      <a href="/game/" target="_blank" class="nav-btn standalone-btn" id="open-standalone-btn">
+        <span>↗</span> Fullscreen Tab
+      </a>
+      <a href="https://versatilevedant.itch.io/spacescape" target="_blank" rel="noopener noreferrer" class="nav-btn official-btn">
+        <span>⭐</span> versatilevedant.itch.io
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Hub Container -->
+  <main class="arcade-main">
+    
+    <!-- Hero / Stage Area -->
+    <section class="game-stage-section">
+      <div class="stage-wrapper">
+        
+        <!-- Arcade Cabinet Frame -->
+        <div class="arcade-cabinet" id="arcade-cabinet">
+          <!-- Marquee Lights -->
+          <div class="cabinet-marquee">
+            <span class="marquee-bulb"></span>
+            <span class="marquee-title">RETRO ARCADE TERMINAL</span>
+            <span class="marquee-bulb"></span>
+          </div>
+
+          <!-- Bezel Controls Bar -->
+          <div class="bezel-controls">
+            <div class="screen-controls-left">
+              <button id="toggle-scanlines" class="bezel-btn" title="Toggle CRT Scanline Effect">
+                <span class="btn-icon">📺</span> Scanlines: <span id="scanlines-label">OFF</span>
+              </button>
+              <button id="toggle-size" class="bezel-btn" title="Toggle Aspect / Size Mode">
+                <span class="btn-icon">📐</span> Mode: <span id="size-mode-label">Classic 9:16</span>
+              </button>
+            </div>
+            <div class="screen-controls-right">
+              <button id="reload-game-btn" class="bezel-btn" title="Reload Game Engine">
+                <span class="btn-icon">🔄</span> Restart
+              </button>
+              <button id="fullscreen-game-btn" class="bezel-btn highlight" title="Full Screen Arcade">
+                <span class="btn-icon">⛶</span> Fullscreen
+              </button>
+            </div>
+          </div>
+
+          <!-- Screen Container -->
+          <div class="screen-viewport classic-mode" id="screen-viewport">
+            <!-- CRT Scanline Overlay -->
+            <div class="crt-overlay disabled" id="crt-overlay"></div>
+            
+            <!-- Loading Screen Placeholder -->
+            <div class="screen-loading" id="screen-loading">
+              <div class="loader-spinner"></div>
+              <p class="loader-text">INITIALIZING SPACESCAPE ENGINE...</p>
+              <p class="loader-sub">Deploying Starfighter & Cosmic Starfield</p>
+            </div>
+
+            <!-- Game Frame -->
+            <iframe 
+              id="game-frame" 
+              src="/game/" 
+              allow="autoplay; fullscreen *; gamepad; accelerometer; gyroscope" 
+              tabindex="0"
+              title="Spacescape Game Viewport">
+            </iframe>
+          </div>
+
+          <!-- Arcade Cabinet Base / Speaker Grille -->
+          <div class="cabinet-base">
+            <div class="speaker-grille">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="cabinet-badges">
+              <span class="coin-insert">★ WASD / ARROWS TO STEER • SPACE TO FIRE ★</span>
+            </div>
+            <div class="speaker-grille">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Info Panel Beside -->
+        <div class="arcade-side-deck">
+          <!-- Mission Brief -->
+          <div class="deck-card mission-card">
+            <div class="card-header">
+              <span class="card-icon">🎯</span>
+              <h3>MISSION BRIEFING</h3>
+            </div>
+            <p>
+              Engage incoming swarms of purple biomechanical drones across deep space! Collect coins (100 score = 1 coin), unlock 5 starfighters in the Space Shop, and seize tactical power-ups.
+            </p>
+            <div class="key-metrics">
+              <div class="metric-item">
+                <span class="metric-num">5</span>
+                <span class="metric-name">Starships</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-num">4</span>
+                <span class="metric-name">Power-Ups</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-num">100:1</span>
+                <span class="metric-name">Score/Coin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flight Controls Guide -->
+          <div class="deck-card controls-card">
+            <div class="card-header">
+              <span class="card-icon">🕹️</span>
+              <h3>FLIGHT CONTROLS</h3>
+            </div>
+            <ul class="controls-list">
+              <li>
+                <div class="key-combo">
+                  <span class="key-cap">W</span><span class="key-cap">A</span><span class="key-cap">S</span><span class="key-cap">D</span>
+                  <span class="or-separator">or</span>
+                  <span class="key-cap">↑</span><span class="key-cap">←</span><span class="key-cap">↓</span><span class="key-cap">→</span>
+                </div>
+                <span class="action-desc">Steer Starfighter</span>
+              </li>
+              <li>
+                <div class="key-combo">
+                  <span class="key-cap space-cap">SPACE / AUTO</span>
+                </div>
+                <span class="action-desc">Continuous Flame Stream</span>
+              </li>
+              <li>
+                <div class="key-combo">
+                  <span class="key-cap">MOUSE / TOUCH</span>
+                </div>
+                <span class="action-desc">Smooth Drag Navigation</span>
+              </li>
+              <li>
+                <div class="key-combo">
+                  <span class="key-cap">ESC / P</span>
+                </div>
+                <span class="action-desc">Pause / Resume</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tactical Arsenal Intel -->
+          <div class="deck-card intel-card">
+            <div class="card-header">
+              <span class="card-icon">⚡</span>
+              <h3>TACTICAL SPECIFICATIONS</h3>
+            </div>
+            <div class="powerup-grid">
+              <div class="powerup-item">
+                <img src="/game/assets_custom/player.png" alt="Starfighter">
+                <div>
+                  <strong>STARFIGHTER DELTA</strong>
+                  <span>Agile combat interceptor with twin thrusters</span>
+                </div>
+              </div>
+              <div class="powerup-item">
+                <img src="/game/assets_custom/flame_1.png" alt="Flame Bullet">
+                <div>
+                  <strong>FLAME CANNON</strong>
+                  <span>High-temperature plasma flame projectiles</span>
+                </div>
+              </div>
+              <div class="powerup-item">
+                <img src="/game/assets_custom/enemy.png" alt="Purple Drone">
+                <div>
+                  <strong>ALIEN MECH DRONE</strong>
+                  <span>Pincer-class insectoid attack formation</span>
+                </div>
+              </div>
+              <div class="powerup-item">
+                <span style="font-size: 1.8rem; filter: drop-shadow(0 0 8px #00f3ff);">✨</span>
+                <div>
+                  <strong>DEEP VOID STARFIELD</strong>
+                  <span>Parallax cosmic dust & twinkling stars</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Starship Hangar Section -->
+    <section class="hangar-section">
+      <div class="section-title-wrap">
+        <h2 class="section-title">THE STARSHIP HANGAR</h2>
+        <p class="section-subtitle">Official combat fleet configurations</p>
+      </div>
+
+      <div class="ships-grid" id="ships-grid">
+        <!-- 1: Starfighter Delta -->
+        <div class="ship-card level-4 elite">
+          <div class="ship-tier-badge">FLAGSHIP • FREE / STARTER</div>
+          <div class="ship-img-box">
+            <img src="/game/assets_custom/player.png" alt="Starfighter Delta">
+          </div>
+          <h3 class="ship-name">STARFIGHTER DELTA</h3>
+          <div class="ship-price free">ACTIVE COMBAT CRAFT</div>
+          <div class="ship-stats">
+            <div class="stat-row">
+              <span>Velocity: 380 km/s</span>
+              <div class="stat-bar"><div class="stat-fill elite-fill" style="width: 76%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Firepower: ×1.0</span>
+              <div class="stat-bar"><div class="stat-fill elite-fill" style="width: 50%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2: Crimson Viper -->
+        <div class="ship-card level-1">
+          <div class="ship-tier-badge">INTERCEPTOR • 200 COINS</div>
+          <div class="ship-img-box">
+            <img src="/game/assets_custom/ship_viper.png" alt="Crimson Viper">
+          </div>
+          <h3 class="ship-name">CRIMSON VIPER</h3>
+          <div class="ship-price">200 COINS</div>
+          <div class="ship-stats">
+            <div class="stat-row">
+              <span>Velocity: 420 km/s</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 84%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Firepower: ×1.25</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 62%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3: Emerald Phantom -->
+        <div class="ship-card level-2">
+          <div class="ship-tier-badge">STEALTH • 350 COINS</div>
+          <div class="ship-img-box">
+            <img src="/game/assets_custom/ship_phantom.png" alt="Emerald Phantom">
+          </div>
+          <h3 class="ship-name">EMERALD PHANTOM</h3>
+          <div class="ship-price">350 COINS</div>
+          <div class="ship-stats">
+            <div class="stat-row">
+              <span>Velocity: 440 km/s</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 88%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Firepower: ×1.50</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 75%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4: Void Reaper -->
+        <div class="ship-card level-3">
+          <div class="ship-tier-badge">DREADNOUGHT • 500 COINS</div>
+          <div class="ship-img-box">
+            <img src="/game/assets_custom/ship_reaper.png" alt="Void Reaper">
+          </div>
+          <h3 class="ship-name">VOID REAPER</h3>
+          <div class="ship-price">500 COINS</div>
+          <div class="ship-stats">
+            <div class="stat-row">
+              <span>Velocity: 460 km/s</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 92%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Firepower: ×1.80</span>
+              <div class="stat-bar"><div class="stat-fill" style="width: 90%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5: Solaris Titan -->
+        <div class="ship-card level-4 elite">
+          <div class="ship-tier-badge">COMMAND SHIP • 750 COINS</div>
+          <div class="ship-img-box">
+            <img src="/game/assets_custom/ship_titan.png" alt="Solaris Titan">
+          </div>
+          <h3 class="ship-name">SOLARIS TITAN</h3>
+          <div class="ship-price elite-price">750 COINS</div>
+          <div class="ship-stats">
+            <div class="stat-row">
+              <span>Velocity: 500 km/s</span>
+              <div class="stat-bar"><div class="stat-fill elite-fill" style="width: 100%"></div></div>
+            </div>
+            <div class="stat-row">
+              <span>Firepower: ×2.20</span>
+              <div class="stat-bar"><div class="stat-fill elite-fill" style="width: 100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Specs & Engine Architecture -->
+    <section class="tech-section">
+      <div class="tech-box">
+        <h3>ENGINE ARCHITECTURE</h3>
+        <div class="tech-chips">
+          <span class="tech-chip">HTML5 High-Performance Canvas</span>
+          <span class="tech-chip">60 FPS Hardware Accelerated</span>
+          <span class="tech-chip">Synthesized WebAudio API</span>
+          <span class="tech-chip">Crisp Pixel-Art Pipeline</span>
+          <span class="tech-chip">Cross-Platform Responsive</span>
+        </div>
+        <p class="tech-desc">
+          Features the exact delta-wing starfighter, purple insectoid alien drones, and animated fiery plasma flame stream bullets over a multi-layer deep void starfield.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Arcade Footer -->
+  <footer class="arcade-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        <span>SPACESCAPE ARCADE SUITE</span> • Local Dev & Gaming Server
+      </div>
+      <div class="footer-links">
+        <a href="https://versatilevedant.itch.io/spacescape" target="_blank" rel="noopener noreferrer">Itch.io: versatilevedant</a>
+        <a href="/spacescape-itch-deploy.zip" download>Download Deploy ZIP</a>
+        <a href="/game/" target="_blank">Direct Canvas</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/portal.js"></script>
+</body>
+</html>

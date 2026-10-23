@@ -1,0 +1,16 @@
+{
+  "name": "spacescape-arcade",
+  "version": "1.0.0",
+  "description": "Spacescape 2D Space Shooter - Arcade Suite and Web Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "author": "Versatile Vedant",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/versatilevedant/Spacescape.git"
+  }
+}
